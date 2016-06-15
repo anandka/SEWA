@@ -18,6 +18,13 @@ or
 $ export APP_SETTINGS="project.config.ProductionConfig"
 ```
 
+### Download Required modules
+Go to the root folder of application
+install pip by command -  sudo apt-get install python-pip
+execute  - pip install -r requirements.txt
+
+
+
 ### Update Settings in Production
 
 1. `SECRET_KEY`
