@@ -21,27 +21,31 @@ $ export APP_SETTINGS="project.config.ProductionConfig"
 ### Download Required modules
 Go to the root folder of application
 install pip by command -  sudo apt-get install python-pip
+
+
 execute  - pip install -r requirements.txt
 
 
+brew install mysql
 
-### Update Settings in Production
+pip install MySQL-python
+
+
+
+
+### Update DB settings in project/config.py
 
 1. `SECRET_KEY`
 1. `SQLALCHEMY_DATABASE_URI`
 
-### Create DB
 
-```sh
-$ python manage.py create_db
-$ python manage.py db init
-$ python manage.py db migrate
-$ python manage.py create_admin
-```
 
 ### Run
 
 ```sh
 $ python manage.py runserver
 ```
+
+
+
 

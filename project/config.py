@@ -37,9 +37,12 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration."""
     DEBUG = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
+    #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:password@localhost/sewa'
     #DEBUG_TB_ENABLED = True
     DEBUG_TB_ENABLED = False
+    STRIPE_SECRET_KEY = 'foo'
+    STRIPE_PUBLISHABLE_KEY = 'bar'
 
 
 class TestingConfig(BaseConfig):

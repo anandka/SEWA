@@ -16,7 +16,7 @@ from flask.ext.login import login_user, logout_user, \
 from project.token import generate_confirmation_token, confirm_token
 
 from project.models import User
-from project.models import TemplatesInfo
+from project.models import TemplatesInfo, Category
 from project.email import send_email
 from project.token import generate_confirmation_token, confirm_token
 from project.decorators import check_confirmed
@@ -39,7 +39,9 @@ import os
 from io import BytesIO
 import StringIO
 import zipstream
+#import MySQLdb
 
+#db = MySQLdb.connect("localhost", "root", "", "sewa")
 
 ################
 #### config ####
@@ -188,15 +190,15 @@ def resend_confirmation():
 
 
 @user_blueprint.route('/testdb')
-@login_required
+
 def test_db():
-    data = current_user.email
     #return current_user.email
     #info = TemplatesInfo.query.get(email=current_user.email).all()
-    info = TemplatesInfo.query.filter_by(template_name='Orders.txt_2016-05-25 18:48:18.533653').all()
-    info = TemplatesInfo.query.all()
+    info = Category.query.filter_by(category_name='Plumber').all()
+    info = Category.query.all()
     for i in info:
-        print(i.email)
+        print(i.categoryid)
+        print(i.category_name)
     #query.order_by(User.username)
     #print info.email
-    return  "you are awesome"
+    return "done please read your console"
