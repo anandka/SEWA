@@ -159,8 +159,15 @@ def input():
 
 @user_blueprint.route('/provider/', methods=['GET', 'POST'])
 #@login_required
-def ip():
-    return "Welcome to the provider page"
+def provider():
+    #return "Welcome to the provider page"
+    return render_template('user/provider.html')
+
+@user_blueprint.route('/seeker/', methods=['GET', 'POST'])
+#@login_required
+def seeker():
+    #return "Welcome to the seeker page"
+    return render_template('user/seeker.html')
 
 
 

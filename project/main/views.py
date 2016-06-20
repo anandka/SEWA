@@ -22,7 +22,6 @@ main_blueprint = Blueprint('main', __name__,)
 ################
 
 @main_blueprint.route('/')
-@login_required
-@check_confirmed
+
 def home():
-    return render_template('main/index.html')
+    return render_template('user/welcome.html')
