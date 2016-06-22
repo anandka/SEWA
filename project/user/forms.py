@@ -9,7 +9,7 @@ from project.models import User
 
 
 class LoginForm(Form):
-    email = TextField('email', validators=[DataRequired(), Email()])
+    email = TextField('email', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
 
 

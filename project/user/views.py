@@ -82,7 +82,10 @@ def register():
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        #user = User.query.filter_by(username=form.email.data)
+        #user = User.query.get(form.email.data).all()
+        user = User.query.filter_by(username=form.email.data).first()
+        print user.password
         if user and bcrypt.check_password_hash(
                 user.password, request.form['password']):
             login_user(user)
@@ -193,6 +196,19 @@ def resend_confirmation():
     flash('A new confirmation email has been sent.', 'success')
     print "\n\n\n\n"
     return redirect(url_for('user.unconfirmed'))
+
+
+@user_blueprint.route('/search_service/', methods=['GET', 'POST'])
+def search_service():
+    if request.method == 'POST':
+        return "there will be db queries in here"
+    return render_template('user/search_service.html')
+
+@user_blueprint.route('/search_job/', methods=['GET', 'POST'])
+def search_job():
+    if request.method == 'POST':
+        return "there will be db queries in here"
+    return render_template('user/search_job.html')
 
 
 @user_blueprint.route('/testdb')

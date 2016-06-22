@@ -83,8 +83,8 @@ class User(db.Model):
     def __init__(self, username, password, name,
                  phone, address, area, city, state, postalcode):
         self.username = username
-        #self.password = bcrypt.generate_password_hash(password)
-        self.password = password
+        self.password = bcrypt.generate_password_hash(password)
+        #self.password = password
         self.name = name
         self.phone = phone
         self.address = address
@@ -103,7 +103,8 @@ class User(db.Model):
         return False
 
     def get_id(self):
-        return self.id
+        #return self.id
+        return self.userid
 
     def __repr__(self):
         return '<email {}'.format(self.email)
