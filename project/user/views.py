@@ -16,12 +16,12 @@ from flask.ext.login import login_user, logout_user, \
 from project.token import generate_confirmation_token, confirm_token
 
 from project.models import User
-from project.models import TemplatesInfo, Category
+from project.models import TemplatesInfo, Category, Service
 from project.email import send_email
 from project.token import generate_confirmation_token, confirm_token
 from project.decorators import check_confirmed
 from project import db, bcrypt
-from .forms import LoginForm, RegisterForm, ChangePasswordForm
+from .forms import LoginForm, RegisterForm, ChangePasswordForm,ProviderForm
 
 from flask import current_app
 import os
@@ -56,32 +56,26 @@ user_blueprint = Blueprint('user', __name__,)
 
 @user_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
-    print"I am in register"
-    form = RegisterForm(request.form)
-    if form.validate_on_submit():
+    if request.method == 'POST':
+        #form = ProviderForm(request.form)
         user = User(
-            email=form.email.data,
-            password=form.password.data,
-            confirmed=False
+        username=request.form['Unm'],
+        password=request.form['Pnm'],
+        name = request.form['Nnm'],
+        phone = request.form['Phnm'],
+        address = request.form['Addnm'],
+        area = request.form['Anm'],
+        city = request.form['Cnm'],
+        state = request.form['Snm'],
+        postalcode = request.form['Codenm']
         )
+        #print username
+        print request.form['Unm']
         db.session.add(user)
         db.session.commit()
+        return render_template('user/welcome.html')
 
-
-        token = generate_confirmation_token(user.email)
-        confirm_url = url_for('user.confirm_email', token=token, _external=True)
-        html = render_template('user/activate.html', confirm_url=confirm_url)
-        subject = "Please confirm your email"
-        send_email(user.email, subject, html)
-
-        login_user(user)
-
-        flash('A confirmation email has been sent via email.', 'success')
-        #return redirect(url_for("main.home"))
-        return redirect(url_for("user.unconfirmed"))
-
-
-    return render_template('user/register.html', form=form)
+    return render_template('user/register.html')
 
 
 @user_blueprint.route('/login', methods=['GET', 'POST'])
@@ -163,6 +157,18 @@ def input():
 #@login_required
 def provider():
     #return "Welcome to the provider page"
+    if request.method == 'POST':
+        #form = ProviderForm(request.form)
+        service = Service(
+        categoryid=request.form['Sname'],
+        subcategoryid=request.form['Aname'],
+        userid = request.form['Rname'],
+        firmname = request.form['Cname']
+        )
+        db.session.add(service)
+        
+        db.session.commit()
+        return "successfully created"
     return render_template('user/provider.html')
 
 @user_blueprint.route('/seeker/', methods=['GET', 'POST'])
@@ -202,3 +208,8 @@ def test_db():
     #query.order_by(User.username)
     #print info.email
     return "done please read your console"
+
+
+@user_blueprint.route('/uitest')
+def test_ui():
+    return render_template('user/sample_delete.html')

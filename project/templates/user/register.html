@@ -1,43 +1,79 @@
+
 {% extends "_base.html" %}
 
 {% block content %}
+<link href="http://maxcdn.bootstrapcdn.com/bootswatch/6.2.0/yeti/bootstrap.min.css" rel="stylesheet" media="screen">
+<form class="form-login" role="form" method="post" action="">
+	<h1>Welcome to Registration Page!</h1><br/></div>
+		<div class='container'>
+			<table>
+				<tr>
+					<td style='width: 240px;'><h4>Enter Mobile(Username): </h4></td>
+					<td><input type = "text" name = "Unm" /></td>
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Enter Password: </h4></td>
+					<td><input type = "password" name = "Pnm" /></td>
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Enter Name: </h4></td>
+					<td><input type = "text" name = "Nnm" /></td>
+				</tr>
 
-<h1>Please Register</h1>
-<br>
-<form class="form-signin" role="form" method="post" action="">
-  {{ form.csrf_token }}
-  {{ form.email(placeholder="email") }}
-    <span class="error">
-      {% if form.email.errors %}
-        {% for error in form.email.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <p>
-  {{ form.password(placeholder="password") }}
-    <span class="error">
-      {% if form.password.errors %}
-        {% for error in form.password.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <p>
-  {{ form.confirm(placeholder="confirm") }}
-    <span class="error">
-      {% if form.confirm.errors %}
-        {% for error in form.confirm.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <button class="btn btn-success" type="submit">Register!</button>
-  <br><br>
-  <p>Already have an account? <a href="/login">Sign in</a>.</p>
+				<tr>
+					<td style='width: 240px;'><h4>Enter Phone number: </h4></td>
+					<td><input type = "text" name = "Phnm" /></td>
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Select State: </h4></td>
+					<td >
+						<select name="Snm">
+  							<option value="Maharashtra">Maharashtra</option>
+  							<option value="Delhi">Delhi</option>
+  						</select>
+  					</td >
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Select City: </h4></td>
+					<td >
+						<select name="Cnm">
+  							<option value="Pune">Pune</option>
+  							<option value="Mumbai">Mumbai</option>
+  						</select>
+  					</td >
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Select Area: </h4></td>
+					<td >
+						<select name="Anm">
+  							<option value="Bavdhan">Bavdhan</option>
+  							<option value="Kothrud">Kothrud</option>
+  						</select>
+  					</td >
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Enter Address: </h4></td>
+					<td><input type = "text" name = "Addnm" /></td>
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Enter Code: </h4></td>
+					<td><input type = "text" name = "Codenm" /></td>
+				</tr>
+
+
+
+
+
+
+				<tr>
+					<td style='width: 240px;'></td>
+					<td ><input type = "submit" value = "Register" style='width:143px' /> </td>
+				</tr>
+
+			</table>
+				
+				
+		</div>	
 </form>
 
 {% endblock %}

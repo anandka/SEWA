@@ -67,7 +67,7 @@ class SubCategory(db.Model):
         
 class User(db.Model):
 
-    __tablename__ = "users"
+    __tablename__ = "user"
 
     userid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -80,14 +80,18 @@ class User(db.Model):
     state = db.Column(db.String, nullable=False)
     postalcode = db.Column(db.String, nullable=True)
 
-    def __init__(self, email, password, confirmed,
-                 admin=False, confirmed_on=None):
-        self.email = email
-        self.password = bcrypt.generate_password_hash(password)
-        self.registered_on = datetime.datetime.now()
-        self.admin = admin
-        self.confirmed = confirmed
-        self.confirmed_on = confirmed_on
+    def __init__(self, username, password, name,
+                 phone, address, area, city, state, postalcode):
+        self.username = username
+        #self.password = bcrypt.generate_password_hash(password)
+        self.password = password
+        self.name = name
+        self.phone = phone
+        self.address = address
+        self.area = area
+        self.city = city
+        self.state = state
+        self.postalcode = postalcode
 
     def is_authenticated(self):
         return True
@@ -115,8 +119,11 @@ class Service(db.Model):
     userid = db.Column(db.String, nullable=True)
     firmname = db.Column(db.String, nullable=True)
 
-    def __init__(self, category_name):
-        self.category_name = category_name
+    def __init__(self, categoryid, subcategoryid, userid, firmname):
+        self.categoryid = categoryid
+        self.subcategoryid = subcategoryid
+        self.userid = userid
+        self.firmname = firmname
 
 
 class Job(db.Model):

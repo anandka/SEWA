@@ -55,3 +55,20 @@ class ChangePasswordForm(Form):
 class InputForm(Form):
     region = TextField('region', validators=[DataRequired()])
     name = TextField('nm', validators=[DataRequired()])
+
+class ProviderForm(Form):
+    Snm = TextField(
+    'Snm',
+    validators=[DataRequired(), Length(min=2, max=40)])
+
+    Rnm = TextField(
+    'Rnm',
+    validators=[DataRequired(), Length(min=6, max=40)])
+
+    Anm = TextField(
+    'Anm',
+    validators=[DataRequired(), Length(min=6, max=40)])
+
+    Cnm = TextField(
+    'Cnm',
+    validators=[DataRequired(), Length(min=3, max=40)])

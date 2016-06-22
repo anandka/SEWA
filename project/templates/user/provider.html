@@ -3,7 +3,7 @@
 
 {% block content %}
 <link href="http://maxcdn.bootstrapcdn.com/bootswatch/6.2.0/yeti/bootstrap.min.css" rel="stylesheet" media="screen">
-
+<form class="form-login" role="form" method="post" action="">
 <div class="col-md-12" >
 	<h1>Welcome to Provider Page!</h1><br/></div>
 	<div class="col-md-12" >
@@ -19,29 +19,47 @@
 					<h4>Enter State:</h4>
 				</div>
 				<div class="col-md-6" >
-					<input type = "text" name = "Snm" />
+					<select name="Sname">
+  					<option value="s1">Maharashtra</option>
+  					<option value="s2">Delhi</option>
+			</select>
 				</div></div>
 				<div class="col-md-6">
 					<div class="col-md-6" >
 						<h4>Enter Region:</h4>
 					</div>
 					<div class="col-md-6" >
-						<input type = "text" name = "Rnm" />
+						
+					<select name="Rname">
+  					<option value="s1">Pune</option>
+  					<option value="s2">Mumbai</option>
+  					</select>
+
 					</div></div>
 					<div class="col-md-6">
 						<div class="col-md-6" > <h4>Enter Area:</h4></div>
 						<div class="col-md-6" >
-							<input type = "text" name = "Anm" />
+								<select name="Aname">
+  									<option value="s1">Bavdhan</option>
+  									<option value="s2">Kothrud</option>
+  								</select>
 						</div></div>
 						<div class="col-md-6">
 							<div class="col-md-6" ><h4> Enter Category:</h4></div>
 							<div class="col-md-6" >
-								<input type = "text" name = "Cnm" />
+								<select name="Cname">
+  									<option value="s1">Repair</option>
+  									<option value="s2">Rent</option>
+  								</select>
 							</div></div>
-							<div class="col-md-6">
+							<div class="col-md-6" >
 								<div class="col-md-6" ><h4> Enter Sub-Category:</h4></div>
 								<div class="col-md-6" >
-									<input type = "text" name = "SCnm" />
+								<select name="SCname" class="ddlcls">
+  									<option value="s1">Plumber</option>
+  									<option value="s2">Carpenter</option>
+  								</select>
+
 								</div></div>
 								<div class="col-md-6">
 									<div class="col-md-6" ><h4> Job Description:</h4></div>
@@ -49,5 +67,14 @@
 										<input type = "text" name = "JDnm" />
 									</div></div>
 								</div>
+								<div class="col-md-6">
+									
+									<div class="col-md-6" >
+										<div style="padding-left:900px">
+										 <button  class="btn btn-success" type="submit">Register!</button>
+										</div>
+									</div></div>
+								</div>
+							</form>
 
 								{% endblock %}
