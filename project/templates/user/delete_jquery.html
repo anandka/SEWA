@@ -1,0 +1,52 @@
+
+
+
+<script>
+data_details = [{jobid : "1", title: "jbtitle", details: "jbdetails",serviceid:"jbserviceid"},
+{jobid : "2", title: "jbtitle", details: "jbdetails",serviceid:"jbserviceid"},
+{jobid : "3", title: "jbtitle", details: "jbdetails",serviceid:"jbserviceid"},
+{jobid : "4", title: "jbtitle", details: "jbdetails",serviceid:"jbserviceid"}]
+jQuery("#tblTariffRules").jqGrid({
+                        url: '../HttpModule/TariffHandler.ashx?MethodName=SearchTariffRule',
+                        datatype: "local",
+
+                        data:data_details,
+                        post: {},
+                        jsonReader: { repeatitems: false, root: function (obj) { return obj; } },//'CustomerID', 'DepotID',
+                        colNames: ['jobid', 'title', 'details','serviceid' 
+                        ],
+
+                        colModel: [
+
+                            { name: 'JobId', width: (pageWidth * (5 / 100)), index: 'JobId', align: 'right', hidden: true, editable: false, sortable: true },
+                            { name: 'Title', width: (pageWidth * (5 / 100)), index: 'Title', align: 'right', hidden: false, editable: false, sortable: true },
+                            { name: 'Details', width: (pageWidth * (5 / 100)), index: 'Details', align: 'right', hidden: false, editable: false, sortable: true },
+                            { name: 'ServiceId', width: (pageWidth * (5 / 100)), index: 'ServiceId', align: 'right', hidden: false, editable: false, sortable: true }
+
+                            ],
+                        jsonReader: {
+                            repeatitems: false,
+                            root: "Rows",
+                            page: "Page",
+                            total: "Total",
+                            records: "Records",
+                            cell: "",
+                            id: "id"
+                        },
+                        loadonce: true,
+                        //rowNum: 20,
+                        rowList: [10, 20, 50],
+                        mtype: "POST",
+                        //sortname: 'Id',
+                        viewrecords: true,
+                        //sortorder: "desc",
+                        keys: true,
+                        height: 'auto',
+                        maxheight: 300,
+                        pager: '#gridpager',
+                        width: 1270,
+                        shrinkToFit: true,
+                        rowNum: 10,
+                        ignoreCase: true,
+                        });
+</script>

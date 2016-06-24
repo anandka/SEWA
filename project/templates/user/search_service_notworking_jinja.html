@@ -1,0 +1,221 @@
+{% extends "_base.html" %}
+{% block content %}
+<link  type="text/css"  href="http://trirand.com/blog/jqgrid/themes/ui.jqgrid.css" rel="stylesheet"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link  type="text/css"  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" rel="stylesheet"/>
+
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+<script src="https://vitalets.github.io/x-editable/assets/bootstrap300/js/bootstrap.js"></script>
+
+
+	<h1>Welcome to Searching Page!</h1><br/></div>
+		<div class='container'>
+			<table>
+				<tr>
+					<td style='width: 240px;'><h4>Select Category: </h4></td>
+					<td >
+						<select name="Catnm">
+  							<option value="Reparing">Reparing</option>
+  							<option value="Housekeeping">Housekeeping</option>
+  						</select>
+  					</td >
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Select Sub Category: </h4></td>
+					<td >
+						<select name="SCatnm">
+  							<option value="Plumbing">Plumbing</option>
+  							<option value="Carpanter">Carpanter</option>
+  						</select>
+  					</td >
+				</tr>
+								<tr>
+					<td style='width: 240px;'><h4>Select Country: </h4></td>
+					<td >
+						<select id="Cnm" name="country">
+  						</select>
+  					</td >
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Select State: </h4></td>
+					<td >
+						<select name="Snm">
+  							<option value="Maharashtra">Maharashtra</option>
+  							<option value="Delhi">Delhi</option>
+  						</select>
+  					</td >
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Select City: </h4></td>
+					<td >
+						<select name="Cinm">
+  							<option value="Pune">Pune</option>
+  							<option value="Mumbai">Mumbai</option>
+  						</select>
+  					</td >
+				</tr>
+				<tr>
+					<td style='width: 240px;'><h4>Select Area: </h4></td>
+					<td >
+						<select name="Anm">
+  							<option value="Bavdhan">Bavdhan</option>
+  							<option value="Kothrud">Kothrud</option>
+  						</select>
+  					</td >
+				</tr>
+
+
+
+
+
+				<tr>
+					<td style='width: 240px;'></td>
+					<td ><input type = "submit" value = "Search" style='width:143px' onclick="display_data()"/> </td>
+
+
+				</tr>
+
+			</table>
+
+
+<div  ng-app="myApp">
+    <div >
+    
+      </div>
+    <div class="NoMargin LineItem panel-default">
+    <div class="panel-heading" style="height: 15px">
+     <span class="FL" style="font-size:large">List of Deleted Estimates</span>
+    </div>
+    </div>
+   <div ng-controller="DeletedEstCtrl" id="DeletedEst">
+     <div style="margin-left:1px;margin-top:15px">
+       <div>
+     <table  class="table" id="tblDelEst">
+        <thead style="border-width: 1px">
+        <th >Service Id</th>
+        <th >Category Name</th>
+        <th >Sub Category Name</th>
+        <th >Details</th>
+        <th >Firm Name</th>
+        <th >User Name</th>          
+      </thead>
+      
+        <tr ng-repeat="x in ReloadInfo.items" >
+         <td >{{x.serviceid }}</td>%% jinja_expression %%
+          <td >{{x.categoryname }}</td>%% jinja_expression %%
+          <td >{{x.subcategoryname }}</td>%% jinja_expression %%
+          <td >{{x.details }}</td>%% jinja_expression %%
+          <td >{{x.firmname }}</td>%% jinja_expression %%
+          <td >{{x.username }}</td>%% jinja_expression %%
+
+           </td>
+       </tr>
+     </table>
+         </div>
+       </div>
+     </div>
+    </div>
+
+
+<script type="text/javascript">
+  jQuery(document).ready(function () {
+    //alert("HI anand");
+    jQuery.ajax({
+      type: "POST",
+      url: '/dropdown_info/state',
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
+
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#Cnm").html(s);
+      },
+      error: function (data) {
+        alert(data);
+      }
+    });
+  });
+
+</script>
+
+<script>
+   //
+   var app = angular.module('myApp', []);
+   app.controller('DeletedEstCtrl', function ($scope, $http) {
+     /*$scope.ReloadInfo = function () {
+       //alert("In reload" + estimateData);
+       jQuery.ajax({
+         //url: '../HttpModule/EstimateLineHandler.ashx?MethodName=GetDeletedEstimates',
+         type: "GET",
+         dataType: "json",cache: false,
+         contentType: "application/json; charset=utf-8",
+         success: function (response) {
+          $scope.lines = response;         
+           $scope.$apply();          
+         },
+         error: function (response) {
+           alert("failed" + response);
+         }
+       });
+    
+
+  } */
+      $scope.ReloadInfo = [
+           { serviceid: 1, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username:1 },{ serviceid: 2, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username:1 },{ serviceid: 3, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username:1 }
+        ];
+   });
+    //
+  $j = jQuery.noConflict();
+  var termTemplate = "<span class='ui-autocomplete-term'>%s</span>";
+  var termTemplate1 = "<span class='ui-autocomplete-term'>%a</span>";
+
+  function DeleteEstimate(){
+   // get parameters
+   var referenceNo = document.getElementById("txtEstimateNo").value;
+   var containerNo = document.getElementById("txtContainerNo").value;
+   var depotCode = document.getElementById("txtDepotCode").value;
+
+   var e = document.getElementById('<%=ddlCustomerList.ClientID%>');
+   if (e != null && e.options != null && e.selectedIndex > 0) {
+    var strCustomer = e.options[e.selectedIndex].value;
+   }
+   if (referenceNo == "" || containerNo == "" || depotCode == "" || strCustomer == "") {
+    jError("Fill out all fields on the form and then submit");
+    return;
+   }
+   var estimateData = "{trnsxn: '" + referenceNo + "',containerId:'" + containerNo;
+   estimateData += "', depotCode:'" + depotCode + "', customer:'" + strCustomer + "'}";
+   jQuery.ajax({
+    url: '../HttpModule/EstimateLineHandler.ashx?MethodName=DeleteEstimate&Data=' + estimateData,
+    type: "GET",
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function (response) {
+     if (response.indexOf("Fail") >= 0)
+      jError(response);
+     else
+      jSuccess(response);
+    },
+    error: function (response) {
+     jError(response);
+    }
+   });
+  }
+ </script>
+    </div>
+{% endblock %}

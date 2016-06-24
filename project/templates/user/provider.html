@@ -14,6 +14,18 @@
 			<div class="col-md-6" >
 				<input type = "text" name = "Onm" />
 			</div></div>
+
+			<div class="col-md-6">
+				<div class="col-md-6" >
+					<h4>Enter Country:</h4>
+				</div>
+				<div class="col-md-6" >
+					<select name="Cnm">
+			</select>
+				</div></div>
+
+
+
 			<div class="col-md-6">
 				<div class="col-md-6" >
 					<h4>Enter State:</h4>
@@ -71,10 +83,43 @@
 									
 									<div class="col-md-6" >
 										<div style="padding-left:900px">
-										 <button  class="btn btn-success" type="submit">Register!</button>
+										 <button  class="btn btn-success" type="submit">Submit</button>
 										</div>
 									</div></div>
 								</div>
 							</form>
+<script type="text/javascript">
+  jQuery(document).ready(function () {
+    //alert("HI anand");
+    jQuery.ajax({
+      type: "POST",
+      url: '/dropdown_info/state',
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
 
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#Cnm").html(s);
+      },
+      error: function (data) {
+        alert(data);
+      }
+    });
+  });
+
+</script>
 								{% endblock %}

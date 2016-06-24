@@ -1,0 +1,96 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="btn-group">
+				 
+				<button class="btn btn-default">
+					Action
+				</button> 
+				<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="#">Action</a>
+					</li>
+					<li class="disabled">
+						<a href="#">Another action</a>
+					</li>
+					<li class="divider">
+					</li>
+					<li>
+						<a href="#">Something else here</a>
+					</li>
+				</ul>
+			</div>
+			<div class="btn-group">
+				 
+				<button class="btn btn-default">
+					Action
+				</button> 
+				<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="#">Action</a>
+					</li>
+					<li class="disabled">
+						<a href="#">Another action</a>
+					</li>
+					<li class="divider">
+					</li>
+					<li>
+						<a href="#">Something else here</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tabbable" id="tabs-956414">
+				<ul class="nav nav-tabs">
+					<li>
+						<a href="#panel-628933" data-toggle="tab">Section 1</a>
+					</li>
+					<li class="active">
+						<a href="#panel-829821" data-toggle="tab">Section 2</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane" id="panel-628933">
+						<p>
+							I'm in Section 1.
+						</p>
+					</div>
+					<div class="tab-pane active" id="panel-829821">
+						<p>
+							Howdy, I'm in Section 2.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			
+      <ul class="Liststyle col-md-8">
+        <li>Enter Aws Region:</li>
+        <li>
+          <select  name = "region">
+            <option>California</option>
+            <option>Ireland</option>
+            <option>Oregon</option>
+            <option>SaoPaulo</option>
+            <option> Singapore</option>
+            <option> Sydney</option>
+            <option> Tokyo</option>
+            <option> Virginia</option>
+          </select>
+        </li>
+      </ul>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

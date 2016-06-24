@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>e-SEWA Add Job</title>
+
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+  <nav class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="home">e-SEWA</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="home">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">About Us</a>
+      </li>
+      <li><a href="#">Contact Us</a></li>
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#login"><span class="glyphicon glyphicon-user"></span> Welcome, Test User</a></li>
+      <li><a href="#register"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+    <div class="row col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+  <div class="panel-heading">Add Job</div>
+  <div class="panel-body">
+  <div class="row col-md-10 col-md-offset-1">
+        <div class="col-md-8 col-md-offset-2">
+        <form id="jobForm" cssClass="form-horizontal" method="post" action="addjob">
+                 	<input type="hidden" id="userId" />
+                    <div class="form-group">
+					    <label for="jobtitle">Service:</label>
+					    <select id="serviceid" name="serviceid">
+						  <option value="1">Service1</option>
+						  <option value="2">Service2</option>
+						  <option value="3">Service3</option>
+						  <option value="4">Service4</option>
+						</select>
+					</div>
+                    <div class="form-group">
+					    <label for="jobtitle">Job Title:</label>
+					    <input type="text" class="form-control" id="title" name="title">
+					</div>
+
+                    <div class="form-group">
+					    <label for="jobdetails">Job Details:</label>
+					    <input type="text" class="form-control" id="details" name="details">
+				    </div>                  
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <input type="submit" id="saveService" class="btn btn-primary" value="Add" onclick="return saveJob();"/>
+                                <input type="button" id="cancel" class="btn btn-primary" value="Cancel" onclick="return cancelJobForm();"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+        </div>
+
+    </div></div>
+</div>
+    </div>
+
+	<script type="text/javascript">
+		function saveJob() {
+
+		    // getting the user form values
+		    var name = $('#name').val().trim();
+		    var password = $('#password').val();
+		    var repassword = $('#repassword').val();
+		    if(name.length ==0) {
+		        alert('Please enter name');
+		        $('#name').focus();
+		        return false;
+		    }
+
+		    if(password.length ==0) {
+		        alert('Please enter password');
+		        $('#password').focus();
+		        return false;
+		    }
+
+		    if(password != repassword){
+                alert('Both password do not match');
+                $('#repassword').focus();
+                return false;
+		    }
+
+		    return true;
+		};
+
+		function cancelJobForm(){
+		    window.location.href="myjobs";
+		};
+	</script>
+
+</body>
+</html>

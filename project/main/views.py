@@ -24,4 +24,4 @@ main_blueprint = Blueprint('main', __name__,)
 @main_blueprint.route('/')
 
 def home():
-    return render_template('user/welcome.html')
+    return render_template('html/home.html')

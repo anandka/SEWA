@@ -16,7 +16,7 @@ from flask.ext.login import login_user, logout_user, \
 from project.token import generate_confirmation_token, confirm_token
 
 from project.models import User
-from project.models import TemplatesInfo, Category, Service
+from project.models import TemplatesInfo, Category, Service, Country, Job
 from project.email import send_email
 from project.token import generate_confirmation_token, confirm_token
 from project.decorators import check_confirmed
@@ -33,6 +33,11 @@ import uuid
 import time
 import glob
 import config
+import json
+from flask import jsonify
+from sqlalchemy import text
+import string
+import random
 
 #delete
 import os
@@ -54,47 +59,23 @@ user_blueprint = Blueprint('user', __name__,)
 #### routes ####
 ################
 
-@user_blueprint.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        #form = ProviderForm(request.form)
-        user = User(
-        username=request.form['Unm'],
-        password=request.form['Pnm'],
-        name = request.form['Nnm'],
-        phone = request.form['Phnm'],
-        address = request.form['Addnm'],
-        area = request.form['Anm'],
-        city = request.form['Cnm'],
-        state = request.form['Snm'],
-        postalcode = request.form['Codenm']
-        )
-        #print username
-        print request.form['Unm']
-        db.session.add(user)
-        db.session.commit()
-        return render_template('user/welcome.html')
-
-    return render_template('user/register.html')
-
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 @user_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm(request.form)
-    if form.validate_on_submit():
-        #user = User.query.filter_by(username=form.email.data)
-        #user = User.query.get(form.email.data).all()
-        user = User.query.filter_by(username=form.email.data).first()
+    if request.method == 'POST':
+        user = User.query.filter_by(username=request.form['name']).first()
         print user.password
         if user and bcrypt.check_password_hash(
                 user.password, request.form['password']):
             login_user(user)
-            flash('Welcome.', 'success')
-            return redirect(url_for('main.home'))
+            #flash('Welcome.', 'success')
+            return render_template('html/myservices.html')
         else:
-            flash('Invalid email and/or password.', 'danger')
-            return render_template('user/login.html', form=form)
-    return render_template('user/login.html', form=form)
+            #flash('Invalid email and/or password.', 'danger')
+            return render_template('html/login.html')
+    return render_template('html/login.html')
 
 
 @user_blueprint.route('/logout')
@@ -151,10 +132,11 @@ def unconfirmed():
     return render_template('user/unconfirmed.html')
 
 
-@user_blueprint.route('/homepage/', methods=['GET', 'POST'])
+
+@user_blueprint.route('/home', methods=['GET', 'POST'])
 #@login_required
-def input():
-    return render_template('user/welcome.html')
+def home():
+    return render_template('html/home.html')
 
 @user_blueprint.route('/provider/', methods=['GET', 'POST'])
 #@login_required
@@ -198,18 +180,29 @@ def resend_confirmation():
     return redirect(url_for('user.unconfirmed'))
 
 
-@user_blueprint.route('/search_service/', methods=['GET', 'POST'])
+@user_blueprint.route('/search_service', methods=['GET', 'POST'])
 def search_service():
     if request.method == 'POST':
         return "there will be db queries in here"
-    return render_template('user/search_service.html')
+    return render_template('html/search_service.html')
 
-@user_blueprint.route('/search_job/', methods=['GET', 'POST'])
+@user_blueprint.route('/search_job', methods=['GET', 'POST'])
 def search_job():
     if request.method == 'POST':
         return "there will be db queries in here"
-    return render_template('user/search_job.html')
+    return render_template('html/search_job.html')
 
+@user_blueprint.route('/dropdown_info/<token>', methods=['GET', 'POST'])
+def dropdown_info(token):
+    a = '[{"key":"A", "val" : "anand"},{"key":"B", "val" : "Karwa"}]'
+    info = Country.query.filter_by().all()
+    ret = "{"
+    
+    for i in info:
+        #ret = ret + "key : " + i.countryid + ","
+        print (i.countryid)
+        print (i.countryname)
+    return a
 
 @user_blueprint.route('/testdb')
 
@@ -229,3 +222,124 @@ def test_db():
 @user_blueprint.route('/uitest')
 def test_ui():
     return render_template('user/sample_delete.html')
+
+@user_blueprint.route('/register')
+def register_html():
+    print "in register_html"
+    return render_template('html/register.html')    
+
+@user_blueprint.route('/saveUser', methods=['GET', 'POST'])
+def saveUser():
+    #username=request.form['name']
+    #print username
+    if request.method == 'POST':
+        user = User(
+        username=request.form['name'],
+        password=request.form['password'],
+        country = request.form['country'],
+        area = request.form['area'],
+        city = request.form['city'],
+        state = request.form['state'],
+        phone = request.form['phone'],
+        postalcode = request.form['pincode'],
+        name = "Dummy",
+        address = "add",
+        coordinates = "123"
+        )
+        
+        db.session.add(user)
+        db.session.commit()
+        print"user successfully saved"
+        return render_template('html/myservices.html')
+    return render_template('html/userhome.html')
+
+@user_blueprint.route('/edituser', methods=['GET', 'POST'])
+def edituser():
+    return render_template('html/edituser.html')
+
+@user_blueprint.route('/myservices', methods=['GET', 'POST'])
+def myservices():
+    return render_template('html/myservices.html')
+
+@user_blueprint.route('/myjobs', methods=['GET', 'POST'])
+def myjobs():
+    return render_template('html/myjobs.html')
+
+@user_blueprint.route('/addjob', methods=['GET', 'POST'])
+def addjob():
+    if request.method == 'POST':
+        print "success"
+        job = Job(
+            title=request.form['title'],
+            details=request.form['details'],
+            serviceid=request.form['serviceid']
+            )
+        db.session.add(job)
+        db.session.commit()
+
+        return render_template('html/myjobs.html')
+    return render_template('html/AddJob.html')
+
+@user_blueprint.route('/addservice', methods=['GET', 'POST'])
+def addservice():
+    if request.method == 'POST':
+        service = Service(
+             servicename=request.form['servicename'],
+             categoryid=request.form['categoryid'],
+             subcategoryid=request.form['subcategoryid'],
+             details=request.form['details']
+             )
+        db.session.add(service)
+        db.session.commit()
+
+        return render_template('html/myservices.html')
+    return render_template('html/AddService.html')
+
+
+
+@user_blueprint.route('/smsregister/<phone>/<pincode>')
+def smsregister(phone, pincode):
+    password = id_generator()
+    smsuser = User(
+        username=phone,
+        postalcode=pincode,
+        password=password
+    )
+    db.session.add(smsuser)
+    db.session.commit()
+
+    return "success " + password
+
+@user_blueprint.route('/searchservice', methods=['GET','POST'])
+def searchservice():
+    print "\n in searchservice"
+    #print request.method
+    #con = request.form['country']
+    #print con
+    print "\n\n\n\n\n\n"
+    res =  request.form
+    print res
+    print "\n\n\n\n\n\n"
+    #print request.json
+    if request.method == 'POST':
+        #countryid = request.form['countryid']
+        #stateid = request.form['stateid']
+        #cityid = request.form['cityid']
+        #areaid = request.form['areaid']
+        #categoryid = request.form['categoryid']
+        #subcategoryid = request.form['subcategoryid']
+        #print "\n\n\n\n\n"
+        #print subcategoryid
+        #print areaid
+        sql = text('select s.serviceid,s.servicename,c.category_name ,subc.subcategory_name, s.details from service s  inner join category c on c.categoryid = s.categoryid inner join subcategory subc on subc.subcategoryid = s.subcategoryid  and subc.categoryid=c.categoryid where userid = 1;')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"servicename" : "' +str(row.servicename) + '", "categoryname":"' +str(row.category_name) + '", "subcategoryname":"' + str(row.subcategory_name) + '","details":"' + str(row.details) +'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        print res_json
+        return res_json
+    return "success"
+
+

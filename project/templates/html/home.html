@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Home</title>
+
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+<nav class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="home">e-SEWA</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="home">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">About Us</a>
+        <!-- 
+<ul class="dropdown-menu">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+ -->
+      </li>
+      <li><a href="#">Contact Us</a></li>
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+
+</nav>
+    <div class="container-fluid">
+    <div class="row">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="static/images/banner1.jpg" alt="Banner 1">
+    </div>
+
+    <div class="item">
+      <img src="static/images/banner2.png" alt="Banner 2">
+    </div>
+
+    <div class="item">
+      <img src="static/images/banner3.png" alt="Banner 3">
+    </div>
+
+  <!-- Left and right controls
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a> -->
+</div>
+    </div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="jumbotron">
+				<h2>
+					Small and Essential Works Agent (SEWA)
+				</h2>
+				<p>
+					This is the place where people can serve people by the people to the people. We can find daily small and essential services providers. Also, people can find suitable jobs for their profession.
+				</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row row col-md-10 col-md-offset-1" >
+		<div class="col-md-4">
+			<h2>
+				Register User Service
+			</h2>
+			<p>
+				Register with us to add all services you provide. With easy steps you can register yourself. Once you register you can add services and related jobs. 
+			</p> 
+			<button type="button" class="btn active btn-primary" onClick="registerUser()">
+				Register
+			</button>
+		</div>
+		<div class="col-md-4">
+			<h2>
+				Looking Professional Services
+			</h2>
+			<p>
+				If you are looking for any professional services just click on search service button below. You can get list of all service provider in selected category, city, area etc.
+			</p> 
+			<button type="button" class="btn active btn-primary" onCLick="searchService()">
+				Search Service
+			</button>
+		</div>
+		<div class="col-md-4">
+			<h2>
+				Looking For Job
+			</h2>
+			<p>
+				If you are looking for any job suitable to your profession just click on search job button below. You can get list of all jobs in selected category, city, area etc.
+			</p>
+			<button type="button" class="btn active btn-primary" onClick="searchJob()">
+				Search Job
+			</button>
+		</div>
+	</div>
+</div>
+
+   <script type="text/javascript">
+		function registerUser() {
+		    window.location.href="register";
+        
+		};
+		
+		function searchService() {
+		    window.location.href="search_service";
+		};
+
+		function searchJob() {
+		    window.location.href="search_job";
+		};
+		
+		function cancelUserForm(){
+		    window.location.href="home";
+		};
+	</script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

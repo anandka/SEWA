@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>e-SEWA Search Service</title>
+    <link href="static/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">  
+   <script src="http://code.angularjs.org/1.4.8/angular.js"></script>  
+   <script src="http://code.angularjs.org/1.4.8/angular-resource.js"></script>
+    
+   <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+  <link  type="text/css"  href="http://trirand.com/blog/jqgrid/themes/ui.jqgrid.css" rel="stylesheet"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link  type="text/css"  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" rel="stylesheet"/>
+   
+
+
+  </head>
+  <body>
+  <nav class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="home" style="font-size:35px">e-SEWA</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="home">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">About Us</a>
+      </li>
+      <li><a href="#">Contact Us</a></li>
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+</nav>
+
+    <div class="row col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+  <div class="col-md-12 panel-heading">
+  <div class="col-md-8"><h5>Search Service</h5></div>
+  <div class="col-md-4">&nbsp;</div>
+  </div>
+  <div class="panel-body">
+  <div class="row col-md-12"> 
+  <form id="searchservice" cssClass="form-horizontal" method="PUT" action="searchservice">
+
+    <div class="row col-md-5">                 
+    <div class="form-group">
+      <label for="name">Country:</label>
+              <select class="form-control" id="countryid" name="countryid">
+              <option value="1">India</option>
+              <option value="2">US</option>
+              <option value="3">China</option>
+              <option value="4">Canada</option>
+            </select>
+    </div>
+
+    <div class="form-group">
+      <label for="name">State:</label>
+              <select class="form-control" id="stateid" name="stateid">
+              <option value="12">Maharashtra</option>
+              <option value="25">Delhi</option>
+              <option value="4">Bihar</option>
+              <option value="23">UP</option>
+              <option value="19">Rajasthan</option>
+            </select>
+    </div>
+    <div class="form-group">
+      <label for="name">City:</label>
+              <select class="form-control" id="cityid" name="cityid">
+              <option value="2">Pune</option>
+              <option value="1">Mumbai</option>
+              <option value="3">Kolhapur</option>
+              <option value="6">Satara</option>
+            </select>
+    </div>
+    <div class="form-group">
+      <label for="name">Area:</label>
+              <select class="form-control" id="areaid" name="areaid" >
+              <option value="1">Bavdhan</option>
+              <option value="2">Kothrud</option>
+              <option value="3">Swargate</option>
+              <option value="4">Katraj</option>
+            </select>
+    </div>
+  </div>
+		  <div class="col-md-6">
+		  <div class="form-group">
+			<label for="name">Category:</label>
+					    <select class="form-control" id="categoryid" name="categoryid" >
+              <option value="21">Services - other</option>
+						  <option value="3">Beauty and fragrances</option>
+						  <option value="13">Gifts and flowers</option>
+						  <option value="26">Vehicle service and accessories</option>
+						</select>
+		  </div>
+
+		  <div class="form-group">
+			<label for="password">Sub Category:</label>
+					    <select class="form-control" id="subcategoryid" name="subcategoryid" >
+						  <option value="187">Carpentry</option>
+						  <option value="188">Plumbing</option>
+						  <option value="189">Child Care Services</option>
+						  <option value="190">Cleaning and Maintenance</option>
+						</select>
+		  </div>
+		  
+		  <div class="form-group">
+			<label for="password">Term:</label>
+			<input type="text" class="form-control" id="password">
+		  </div></div>
+	</div>
+     <div class="row col-md-12">
+      <div class="col-xs-4">&nbsp;</div>
+      <div class="col-xs-8">
+			<input type="button" id="searchservice" class="btn btn-primary" value="Search" onclick=" searchResult();"/>
+			<input type="button" id="reset" class="btn btn-default" value="Reset" onclick="return resetForm();"/>
+		</div>
+     </div>         
+</form>
+  </div>
+  <div class="row col-md-12">          
+  <!--<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Mobile</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Test Name 1</td>
+        <td>B-302,Sun City, Anand Nagar, Pune</td>
+        <td>1234567890</td>
+        <td>020-0202020</td>
+        <td>john@example.com</td>
+        <td><a href="javascript:openMapView();"><img src="static/images/map.png" alt="Map" height="42" width="42"></a><td>
+      </tr>
+      <tr>
+        <td>Test Name 2</td>
+        <td>B-302,Sun City, Anand Nagar, Pune</td>
+        <td>1234567890</td>
+        <td>020-0202020</td>
+        <td>john@example.com</td>
+        <td><a href="javascript:openMapView();"><img src="static/images/map.png" alt="Map" height="42" width="42"></a><td>
+      </tr>
+      <tr>
+        <td>Test Name 3</td>
+        <td>B-302,Sun City, Anand Nagar, Pune</td>
+        <td>1234567890</td>
+        <td>020-0202020</td>
+        <td>john@example.com</td>
+        <td><a href="javascript:openMapView();"><img src="static/images/map.png" alt="Map" height="42" width="42"></a><td>
+      </tr>
+    </tbody>
+  </table>-->
+    </div></div>
+</div>
+
+
+
+
+<div  ng-app="myApp">
+
+   <div ng-controller="DeletedEstCtrl" ng-init="ReloadInfo()" id="DeletedEst">
+     <div style="margin-left:1px;margin-top:15px">
+       <div>
+     <table  class="table" id="tblDelEst">
+        <thead style="border-width: 1px">
+        <th >Service Name</th>
+        <th >Category Name</th>
+        <th >Sub Category Name</th>
+        <th >Details</th>        
+      </thead>
+     
+       <tr ng-repeat="x in lines" > 
+
+        <!--  <td >{{ ReloadInfo }}</td> -->
+         <td >{{x.servicename }}</td>
+           <td >{{ x.categoryname }}</td> 
+          <td >{{ x.subcategoryname }}</td>
+          <td >{{ x.details }}</td>
+           </td>
+       </tr>
+     </table>
+         </div>
+       </div>
+     </div>
+    </div>
+
+
+
+
+
+	<script type="text/javascript">
+		function submitUserForm() {
+
+		    // getting the user form values
+		    var name = $('#name').val().trim();
+		    var password = $('#password').val();
+		    var repassword = $('#repassword').val();
+		    if(name.length ==0) {
+		        alert('Please enter name');
+		        $('#name').focus();
+		        return false;
+		    }
+
+		    if(password.length ==0) {
+		        alert('Please enter password');
+		        $('#password').focus();
+		        return false;
+		    }
+
+		    if(password != repassword){
+                alert('Both password do not match');
+                $('#repassword').focus();
+                return false;
+		    }
+
+		    return true;
+		};
+
+		function openMapView(){
+			window.open('http://maps.google.com/?q=16.680947,74.237123');
+		}
+		function resetForm(){
+		    window.location.href="./search_job.html";
+		};
+	</script>
+
+  </script>
+
+<script>
+  
+    
+  var app = angular.module('myApp', []);
+
+  app.controller('DeletedEstCtrl', function ($scope, $http) {
+    $scope.ReloadInfo = function () {
+      
+      //alert("In reload" + estimateData);
+      jQuery.ajax({
+        url: 'http://127.0.0.1:5000/searchservice',
+        type: "POST",
+        dataType: "json",cache: false,
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+         $scope.lines = response;         
+          $scope.$apply();          
+        },
+        error: function (response) {
+          alert("failed" + response);
+        }
+      });
+   
+
+ } 
+   /* $scope.ReloadInfo = [
+         { serviceid: 1, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username: 1 }, { serviceid: 2, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username: 1 }, { serviceid: 3, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username: 1 }
+    ];*/
+  });
+  //
+  $j = jQuery.noConflict();
+  var termTemplate = "<span class='ui-autocomplete-term'>%s</span>";
+  var termTemplate1 = "<span class='ui-autocomplete-term'>%a</span>";
+
+  
+ </script>
+
+ <script type="text/javascript">
+  jQuery(document).ready(function () {
+    //alert("HI anand");
+    jQuery.ajax({
+      type: "POST",
+      url: '/dropdown_info/state',
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        //alert(data);
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
+
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#country").html(s);
+      },
+      error: function (data) {
+        //alert(data);
+      }
+    });
+  });
+
+</script>
+
+<script>
+    function searchResult(){
+      alert("Called");
+      var cust= jQuery("#countryid").val();
+      var scope = angular.element(jQuery("#DeletedEst")).scope();
+          scope.ReloadInfo();
+       // window.location.href="searchservice";
+    };
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+#myCarousel{margin-top:20px;}
+.carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 30%;
+      margin: auto;
+      height:auto;
+  }
+
+.carousel-control{background:#fff!important;}
+.jumbotron{background-color:#fff;margin-top:25px;}
+nav{ 
+    border: medium none!important;
+    height: 100px;
+    padding: 20px;
+    color:#000;}
+.navbar-brand{margin-right:55px;color:#3178DD!important;font-size:35px;}
+#sidebar{list-style: outside none none; padding: 5px; border: 1px solid rgb(153, 153, 153);}
+#sidebar li{padding:10px;}
+li.Active{background-color:#444;color:#fff;}
+li.Active a{color:#fff!important;}
+.contents{border:1px solid #999; height:450px;}
+
+.innercontents{border:1px solid #999; height:600px;width:600px;}
