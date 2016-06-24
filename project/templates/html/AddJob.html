@@ -1,3 +1,7 @@
+
+<% extends "_base.html" %>
+
+<% block content %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -41,11 +45,11 @@
                  	<input type="hidden" id="userId" />
                     <div class="form-group">
 					    <label for="jobtitle">Service:</label>
-					    <select id="serviceid" name="serviceid">
-						  <option value="1">Service1</option>
+					    <select id="serviceid" name="serviceid" id="serviceid">
+						<!--  <option value="1">Service1</option>
 						  <option value="2">Service2</option>
 						  <option value="3">Service3</option>
-						  <option value="4">Service4</option>
+						  <option value="4">Service4</option>-->
 						</select>
 					</div>
                     <div class="form-group">
@@ -107,5 +111,40 @@
 		};
 	</script>
 
+
+  <script type="text/javascript">
+  jQuery(document).ready(function () {
+    jQuery.ajax({
+      type: "POST",
+      url: '/userservice',
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
+
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#serviceid").html(s);
+      },
+      error: function (data) {
+        alert(data);
+      }
+    });
+  });
+  </script>
+
 </body>
 </html>
+<% endblock %>

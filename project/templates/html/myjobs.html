@@ -1,3 +1,7 @@
+
+<% extends "_base.html" %>
+
+<% block content %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,6 +13,9 @@
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/style.css" rel="stylesheet">
 
+       <script src="http://code.angularjs.org/1.4.8/angular.js"></script>  
+   <script src="http://code.angularjs.org/1.4.8/angular-resource.js"></script>
+   <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
   </head>
   <body>
 <nav class="navbar">
@@ -34,16 +41,16 @@
     
     <div class="row col-md-10 col-md-offset-1">
     
-		<div class="col-md-3">
-		<ul id="sidebar">
-			<li><a href="javascript:myServices();">View My Services</a></li>
-			<li><a href="javascript:myJobs();">View My Jobs</a></li>
-			<li><a href="javascript:editUser();">Edit Profile</a></li>
-		</ul>
-		</div>
-		<div class="col-md-9">
-		<!-- <div class="col-md-12" id="mainContents"> -->
-		
+    <div class="col-md-3">
+    <ul id="sidebar">
+      <li><a href="javascript:myServices();">View My Services</a></li>
+      <li><a href="javascript:myJobs();">View My Jobs</a></li>
+      <li><a href="javascript:editUser();">Edit Profile</a></li>
+    </ul>
+    </div>
+    <div class="col-md-9">
+    <!-- <div class="col-md-12" id="mainContents"> -->
+    
 <!-- 
   <nav class="navbar">
   <div class="container-fluid">
@@ -73,71 +80,77 @@
   </div>
   <div class="panel-body">
   <div class="row col-md-12">          
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Job Title</th>
-        <th>Job Details</th>
-      </tr>
+  <div class="table table-striped">
+
+  <div  ng-app="myApp">
+
+   <div ng-controller="DeletedEstCtrl" ng-init="ReloadInfo()" id="DeletedEst">
+     <div style="margin-left:1px;margin-top:15px">
+       <div>
+     <table  class="table" id="tblDelEst">
+        <thead style="border-width: 1px">
+        <th >Service Name</th>
+        <th >Title</th>
+        <th >Details</th>        
     </thead>
-    <tbody>
-      <tr>
-        <td>Job Title 1</td>
-        <td>Job Details 1</td>
+     
+       <tr ng-repeat="x in lines" > 
+
+        <!--  <td >{{ ReloadInfo }}</td> -->
+         <td >{{x.servicename }}</td>
+           <td >{{ x.title }}</td> 
+          <td >{{ x.details }}</td>
+           </td>
       </tr>
-      <tr>
-        <td>Job Title 2</td>
-        <td>Job Details 2</td>
-      </tr>
-      <tr>
-        <td>Job Title 3</td>
-        <td>Job Details 3</td>
-      </tr>
-    </tbody>
   </table>
+         </div>
+       </div>
+     </div>
+    </div>
+  </div>
   </div></div>
-	</div>
+  </div>
     </div>
 
-	<script type="text/javascript">
-		function submitUserForm() {
+  <script type="text/javascript">
+    function submitUserForm() {
 
-		    // getting the user form values
-		    var name = $('#name').val().trim();
-		    var password = $('#password').val();
-		    var repassword = $('#repassword').val();
-		    if(name.length ==0) {
-		        alert('Please enter name');
-		        $('#name').focus();
-		        return false;
-		    }
+        // getting the user form values
+        var name = $('#name').val().trim();
+        var password = $('#password').val();
+        var repassword = $('#repassword').val();
+        if(name.length ==0) {
+            alert('Please enter name');
+            $('#name').focus();
+            return false;
+        }
 
-		    if(password.length ==0) {
-		        alert('Please enter password');
-		        $('#password').focus();
-		        return false;
-		    }
+        if(password.length ==0) {
+            alert('Please enter password');
+            $('#password').focus();
+            return false;
+        }
 
-		    if(password != repassword){
+        if(password != repassword){
                 alert('Both password do not match');
                 $('#repassword').focus();
                 return false;
-		    }
+        }
 
-		    return true;
-		};
+        return true;
+    };
 
-		function cancelUserForm(){
-		    window.location.href="home";
-		};
-	</script>
+    function cancelUserForm(){
+        window.location.href="home";
+    };
+  </script>
 
-		</div>
-	</div>
+    </div>
+  </div>
 
 </div>
 
-	<script type="text/javascript">
+  <script type="text/javascript">
 function submitUserForm() {
 
    // getting the user form values
@@ -171,7 +184,7 @@ function cancelUserForm(){
 
 
 </script>
-	
+  
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
@@ -207,4 +220,33 @@ function cancelUserForm(){
   </script>
 
   </body>
+<script>
+  var app = angular.module('myApp', []);
+  app.controller('DeletedEstCtrl', function ($scope, $http) {
+    $scope.ReloadInfo = function () {
+      //alert("In reload" + estimateData);
+      jQuery.ajax({
+        url: 'searchjob',
+        type: "POST",
+        dataType: "json",cache: false,
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+         $scope.lines = response;         
+          $scope.$apply();          
+        },
+        error: function (response) {
+          alert("failed" + response);
+        }
+      });
+ } 
+   /* $scope.ReloadInfo = [
+         { serviceid: 1, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username: 1 }, { serviceid: 2, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username: 1 }, { serviceid: 3, categoryname: 'awesome user1', subcategoryname: 2, details: 4, firmname: 'admin', username: 1 }
+    ];*/
+  });
+  //
+  $j = jQuery.noConflict();
+  var termTemplate = "<span class='ui-autocomplete-term'>%s</span>";
+  var termTemplate1 = "<span class='ui-autocomplete-term'>%a</span>";
+  </script>
 </html>
+<% endblock %>

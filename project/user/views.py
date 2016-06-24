@@ -287,7 +287,8 @@ def addservice():
              servicename=request.form['servicename'],
              categoryid=request.form['categoryid'],
              subcategoryid=request.form['subcategoryid'],
-             details=request.form['details']
+             details=request.form['details'],
+             userid=current_user.userid
              )
         db.session.add(service)
         db.session.commit()
@@ -312,26 +313,8 @@ def smsregister(phone, pincode):
 
 @user_blueprint.route('/searchservice', methods=['GET','POST'])
 def searchservice():
-    print "\n in searchservice"
-    #print request.method
-    #con = request.form['country']
-    #print con
-    print "\n\n\n\n\n\n"
-    res =  request.form
-    print res
-    print "\n\n\n\n\n\n"
-    #print request.json
     if request.method == 'POST':
-        #countryid = request.form['countryid']
-        #stateid = request.form['stateid']
-        #cityid = request.form['cityid']
-        #areaid = request.form['areaid']
-        #categoryid = request.form['categoryid']
-        #subcategoryid = request.form['subcategoryid']
-        #print "\n\n\n\n\n"
-        #print subcategoryid
-        #print areaid
-        sql = text('select s.serviceid,s.servicename,c.category_name ,subc.subcategory_name, s.details from service s  inner join category c on c.categoryid = s.categoryid inner join subcategory subc on subc.subcategoryid = s.subcategoryid  and subc.categoryid=c.categoryid where userid = 1;')
+        sql = text('select s.serviceid,s.servicename,c.category_name ,subc.subcategory_name, s.details from service s  inner join category c on c.categoryid = s.categoryid inner join subcategory subc on subc.subcategoryid = s.subcategoryid  and subc.categoryid=c.categoryid where userid = '+str(current_user.userid)+';')
         res_json = "["
         result = db.engine.execute(sql)
         for row in result:
@@ -343,3 +326,74 @@ def searchservice():
     return "success"
 
 
+@user_blueprint.route('/searchjob', methods=['GET','POST'])
+def searchjob():
+    if request.method == 'POST':
+        #countryid = request.form['countryid']
+        #stateid = request.form['stateid']
+        #cityid = request.form['cityid']
+        #areaid = request.form['areaid']
+        #categoryid = request.form['categoryid']
+        #subcategoryid = request.form['subcategoryid']
+        #print "\n\n\n\n\n"
+        #print subcategoryid
+        #print areaid
+        sql = text('select j.jobid,j.title ,j.details,s.servicename from job j inner join service s on s.serviceid=j.serviceid where s.userid= '+str(current_user.userid)+';')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"servicename" : "' +str(row.servicename) + '", "title":"' +str(row.title) + '", "details":"' + str(row.details) + '"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        return res_json
+    return "success"
+
+@user_blueprint.route('/dropdowncategory', methods=['GET','POST'])
+def dropdowncategory():
+    if request.method == 'POST':
+        sql = text('select * from category;')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"key" : "' +str(row.categoryid) + '", "val":"' +str(row.category_name)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        return res_json
+
+@user_blueprint.route('/dropdownsubcategory/<categoryid>', methods=['GET','POST'])
+def dropdownsubcategory(categoryid):
+    if request.method == 'POST':
+        sql = text('select * from subcategory where categoryid = '+categoryid+';')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"key" : "' +str(row.subcategoryid) + '", "val":"' +str(row.subcategory_name)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        return res_json
+
+@user_blueprint.route('/userservice', methods=['GET','POST'])
+def userservice():
+    if request.method == 'POST':
+        sql = text('select serviceid, servicename from service where userid = '+str(current_user.userid)+';')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"key" : "' +str(row.serviceid) + '", "val":"' +str(row.servicename)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        print res_json
+        return res_json
+
+@user_blueprint.route('/dropdowncountry', methods=['GET','POST'])
+def dropdowncountry():
+    if request.method == 'POST':
+        sql = text('select * from country;')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"key" : "' +str(row.countryid) + '", "val":"' +str(row.countryname)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        print res_json
+        return res_json

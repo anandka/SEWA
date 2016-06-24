@@ -1,3 +1,7 @@
+
+<% extends "_base.html" %>
+
+<% block content %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,8 +19,8 @@
     
    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
   <link  type="text/css"  href="http://trirand.com/blog/jqgrid/themes/ui.jqgrid.css" rel="stylesheet"/>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<link  type="text/css"  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" rel="stylesheet"/>
+
+
    
 
 
@@ -24,9 +28,7 @@
   <body>
   <nav class="navbar">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="home" style="font-size:35px">e-SEWA</a>
-    </div>
+
     <ul class="nav navbar-nav">
       <li class="active"><a href="home">Home</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">About Us</a>
@@ -95,10 +97,10 @@
 		  <div class="form-group">
 			<label for="name">Category:</label>
 					    <select class="form-control" id="categoryid" name="categoryid" >
-              <option value="21">Services - other</option>
+             <!-- <option value="21">Services - other</option>
 						  <option value="3">Beauty and fragrances</option>
 						  <option value="13">Gifts and flowers</option>
-						  <option value="26">Vehicle service and accessories</option>
+						  <option value="26">Vehicle service and accessories</option>-->
 						</select>
 		  </div>
 
@@ -326,4 +328,47 @@
 
 
 </body>
+
+
+
+
+<script type="text/javascript">
+  jQuery(document).ready(function () {
+    //alert("HI anand");
+    jQuery.ajax({
+      type: "POST",
+      url: '/dropdowncategory',
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
+
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#categoryid").html(s);
+      },
+      error: function (data) {
+        alert(data);
+      }
+    });
+  });
+
+</script>
+
+
+
+
 </html>
+<% endblock %>

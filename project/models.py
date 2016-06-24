@@ -157,7 +157,7 @@ class Service(db.Model):
     userid = db.Column(db.String, nullable=True)
     
 
-    def __init__(self, servicename, categoryid, subcategoryid, details, userid="1"):
+    def __init__(self, servicename, categoryid, subcategoryid, details, userid):
         
         self.servicename = servicename
         self.categoryid = categoryid
