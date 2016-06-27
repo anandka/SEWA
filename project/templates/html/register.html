@@ -56,39 +56,39 @@
   	</div>
   	<div class="form-group">
     	<label for="name">Country:</label>
-					    <select class="form-control" id="country" name="country">
-						  <option value="1">India</option>
+					    <select class="form-control" id="country" name="country" onchange="displayState();">
+						  <!--<option value="1">India</option>
 						  <option value="2">US</option>
 						  <option value="3">China</option>
-						  <option value="4">Canada</option>
+						  <option value="4">Canada</option>-->
 						</select>
   	</div>
   	<div class="form-group">
     	<label for="name">State:</label>
-					    <select class="form-control" id="state" name="state">
-						  <option value="12">Maharashtra</option>
+					    <select class="form-control" id="state" name="state" onchange="displayCity();">
+						  <!--<option value="12">Maharashtra</option>
 						  <option value="25">Delhi</option>
 						  <option value="4">Bihar</option>
 						  <option value="23">UP</option>
-              <option value="19">Rajasthan</option>
+              <option value="19">Rajasthan</option>-->
 						</select>
   	</div>
   	<div class="form-group">
     	<label for="name">City:</label>
-					    <select class="form-control" id="city" name="city">
-						  <option value="2">Pune</option>
+					    <select class="form-control" id="city" name="city" onchange="displayArea();">
+						  <!--<option value="2">Pune</option>
 						  <option value="1">Mumbai</option>
 						  <option value="3">Kolhapur</option>
-						  <option value="6">Satara</option>
+						  <option value="6">Satara</option>-->
 						</select>
   	</div>
   	<div class="form-group">
     	<label for="name">Area:</label>
 					    <select class="form-control" id="area" name="area" >
-						  <option value="1">Bavdhan</option>
+						 <!-- <option value="1">Bavdhan</option>
 						  <option value="2">Kothrud</option>
 						  <option value="3">Swargate</option>
-						  <option value="4">Katraj</option>
+						  <option value="4">Katraj</option>-->
 						</select>
   	</div>
   	<div class="form-group">
@@ -146,5 +146,147 @@
 	</script>
 
 </body>
+
+<script type="text/javascript">
+  jQuery(document).ready(function () {
+    jQuery.ajax({
+      type: "POST",
+      async: false,
+      url: '/dropdowncountry',
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
+
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#country").html(s);
+      },
+      error: function (data) {
+        alert(data);
+      }
+    });
+    displayState();
+  });
+
+  function displayState(){
+      var country_selected= jQuery("#country").val();
+      var new_url = '/dropdownstate/' + country_selected;
+      
+      jQuery.ajax({
+      type: "POST",
+      url: new_url,
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
+
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#state").html(s);
+      },
+      error: function (data) {
+        alert(data);
+      }
+    });
+  };
+
+    function displayCity(){
+      var state_selected= jQuery("#state").val();
+      var new_url = '/dropdowncity/' + state_selected;
+      
+      jQuery.ajax({
+      type: "POST",
+      url: new_url,
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
+
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#city").html(s);
+      },
+      error: function (data) {
+        alert(data);
+      }
+    });
+  };
+
+      function displayArea(){
+      var city_selected= jQuery("#city").val();
+      var new_url = '/dropdownarea/' + city_selected;
+      
+      jQuery.ajax({
+      type: "POST",
+      url: new_url,
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        var response, s = '<select>', i;
+        //alert(data);
+        response = jQuery.parseJSON(data);
+        //alert(response);
+        //alert(response.length);
+        if (response && response.length) {
+
+          var l = response.length;
+          //s += "<option value = '" + '0' + " '>" + 'Select Component' + " </option>";
+          for (var i = 0; i < l; i++) {
+
+            s += '<option value="' + response[i].key + '">' + response[i].val + '</option>';
+
+          }
+        }
+        s += '</select>';
+        //alert(s);
+        jQuery("#area").html(s);
+      },
+      error: function (data) {
+        alert(data);
+      }
+    });
+  };
+
+</script>
+
+
+
+
 </html>
 <% endblock %>

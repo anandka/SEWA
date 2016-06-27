@@ -188,9 +188,28 @@ def search_service():
 
 @user_blueprint.route('/search_job', methods=['GET', 'POST'])
 def search_job():
+   
     if request.method == 'POST':
-        return "there will be db queries in here"
+        country = request.form['country']
+        state = request.form['state']
+        city = request.form['city']
+        area = request.form['area']
+        category = request.form['category']
+        subcategory = request.form['subcategory']
+
+        sql = text('select j.title, j.details, u.address, u.name, u.username from job as j inner join service s on s.serviceid = j.serviceid  inner join category c on c.categoryid = s.categoryid inner join subcategory subcat on subcat.subcategoryid = s.subcategoryid inner join user u on u.userid = s.userid where c.categoryid = '+category+' or subcat.subcategoryid = '+subcategory+' or u.city = '+city+' or u.country= '+country+' or u.state='+state+' or u.area='+area+';')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =   res_json + '{"title" : "' +str(row.title) + '", "details":"' +str(row.details) + '", "address":"' + str(row.address) + '", "name":"' +str(row.name)+ '","mobile":"' +str(row.username)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        #print res_json
+        
+        #return res_json
+
     return render_template('html/search_job.html')
+
 
 @user_blueprint.route('/dropdown_info/<token>', methods=['GET', 'POST'])
 def dropdown_info(token):
@@ -253,9 +272,6 @@ def saveUser():
         return render_template('html/myservices.html')
     return render_template('html/userhome.html')
 
-@user_blueprint.route('/edituser', methods=['GET', 'POST'])
-def edituser():
-    return render_template('html/edituser.html')
 
 @user_blueprint.route('/myservices', methods=['GET', 'POST'])
 def myservices():
@@ -310,6 +326,45 @@ def smsregister(phone, pincode):
     db.session.commit()
 
     return "success " + password
+
+@user_blueprint.route('/smssearch/<category>/<pincode>')
+def smssearch(category, pincode):
+    print category
+    print pincode
+    sql = text('select s.servicename, u.username, u.address from service s inner join user u on u.userid = s.userid inner join category c on c.categoryid=s.categoryid where c.category_name = "'+category+'" and u.postalcode = '+pincode+';')
+    res_json = "["
+    result = db.engine.execute(sql)
+    for row in result:
+        res_json =  res_json + '{"servicename" : "' +str(row.servicename) + '", "username":"' +str(row.username)+'", "address":"'+str(row.address)+'"},'
+    res_json =res_json[:-1]
+    res_json = res_json + "]"
+    
+    return res_json
+
+
+
+@user_blueprint.route('/sitesearch', methods=['GET', 'POST'])
+def sitesearch():
+    if request.method == 'POST':
+        subcategory = request.form['subcategory']
+        pincode = request.form['pincode']
+        print subcategory
+        print pincode
+
+        sql = text('select s.servicename, u.username, u.address from service s inner join user u on u.userid = s.userid inner join category c on c.categoryid=s.categoryid  inner join subcategory sc on sc.categoryid=c.categoryid where sc.subcategoryid = "'+subcategory+'" and u.postalcode = '+pincode+';')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"servicename" : "' +str(row.servicename) + '", "username":"' +str(row.username)+'", "address":"'+str(row.address)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        print res_json
+        
+        return res_json
+    return "not possible"
+
+
+
 
 @user_blueprint.route('/searchservice', methods=['GET','POST'])
 def searchservice():
@@ -382,7 +437,7 @@ def userservice():
             res_json =  res_json + '{"key" : "' +str(row.serviceid) + '", "val":"' +str(row.servicename)+'"},'
         res_json =res_json[:-1]
         res_json = res_json + "]"
-        print res_json
+        
         return res_json
 
 @user_blueprint.route('/dropdowncountry', methods=['GET','POST'])
@@ -395,5 +450,81 @@ def dropdowncountry():
             res_json =  res_json + '{"key" : "' +str(row.countryid) + '", "val":"' +str(row.countryname)+'"},'
         res_json =res_json[:-1]
         res_json = res_json + "]"
-        print res_json
+        
         return res_json
+
+@user_blueprint.route('/dropdownstate/<countryid>', methods=['GET','POST'])
+def dropdownstate(countryid):
+    if request.method == 'POST':
+        sql = text('select * from state where countryid = '+countryid+';')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"key" : "' +str(row.stateid) + '", "val":"' +str(row.statename)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        
+        return res_json
+
+@user_blueprint.route('/dropdowncity/<stateid>', methods=['GET','POST'])
+def dropdowncity(stateid):
+    if request.method == 'POST':
+        sql = text('select * from city where stateid = '+stateid+';')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"key" : "' +str(row.cityid) + '", "val":"' +str(row.cityname)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        
+        return res_json
+
+@user_blueprint.route('/dropdownarea/<cityid>', methods=['GET','POST'])
+def dropdownarea(cityid):
+    if request.method == 'POST':
+        sql = text('select * from area where cityid = '+cityid+';')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"key" : "' +str(row.areaid) + '", "val":"' +str(row.areaname)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        
+        return res_json
+
+@user_blueprint.route('/edituser', methods=['GET','POST'])
+
+def edituser():
+    if request.method == 'POST':
+        name = request.form['name']
+        password = request.form['password']
+        country = request.form['country']
+        state = request.form['state']
+        city = request.form['city']
+        area = request.form['area']
+        pincode = request.form['pincode']
+        phone = request.form['phone']
+        address = request.form['address']
+        sql = text('update user set password="+password+",name="+name+",phone="+phone+",address="+address+",area="+area+",city="+city+",state="+state+",postalcode="+pincode+",country="+country+" where userid=" +str(current_user.userid)+";')
+        
+        result = db.engine.execute(sql)
+        return render_template('html/myservices.html')    
+    return render_template('html/edituser.html')
+
+@user_blueprint.route('/simple_search_job', methods=['GET','POST'])
+def simple_search_job():
+    return render_template('html/simple_search_job.html')
+
+@user_blueprint.route('/dropdownallsubcategory', methods=['GET','POST'])
+def dropdownallsubcategory():
+    if request.method == 'POST':
+        sql = text('select * from subcategory;')
+        res_json = "["
+        result = db.engine.execute(sql)
+        for row in result:
+            res_json =  res_json + '{"key" : "' +str(row.subcategoryid) + '", "val":"' +str(row.subcategory_name)+'"},'
+        res_json =res_json[:-1]
+        res_json = res_json + "]"
+        return res_json
+
+
